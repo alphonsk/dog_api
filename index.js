@@ -11,7 +11,7 @@ function getImage(breed) {
     type: 'GET',
     datatype: 'json',
     cache: false,
-    // async: false,
+    async: false,
     success(data) {
       picUrl = data.message;
     },
@@ -184,7 +184,7 @@ function getAll() {
     if (mylen < allbreedslen ) {    
         $('#rand-dog').css('display','inline'); 
     } 
-    
+
   });
  
 
