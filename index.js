@@ -1,6 +1,7 @@
 const allBreeds = [];
 const myCollection = [];
 let picUrl = '';
+ 
 
 
 // return each dog picture
@@ -10,7 +11,7 @@ function getImage(breed) {
     type: 'GET',
     datatype: 'json',
     cache: false,
-    async: false,
+    // async: false,
     success(data) {
       picUrl = data.message;
     },
@@ -115,7 +116,7 @@ function getAll() {
     addDogtoCollection(div);
   });
   $('.breed').delegate('#add-dog', 'click', function () {
-    const div = $(this).parent().attr('id');
+    const div = $(this).parent().attr('id'); 
     addDogtoCollection(div);
   });
 
@@ -176,6 +177,14 @@ function getAll() {
       $('.breed').css('width', '99%');
       $('.breed').css('display', 'inline-block');
     }
+
+    // show random button
+    let mylen = myCollection.length;
+    let allbreedslen = allBreeds.length;
+    if (mylen < allbreedslen ) {    
+        $('#rand-dog').css('display','inline'); 
+    } 
+    
   });
  
 
@@ -189,4 +198,35 @@ function showModal() {
 $('body').delegate('.close', 'click', () => {
   $('#myModal').hide();
   $('#input').val('');
+});
+
+
+// add a random dog
+$('#rand-dog').click(function(){  
+    let num;
+    let randomDog = '';
+    let index;
+    let alllen = allBreeds.length;
+    let mylen = myCollection.length
+     
+    // is it already saved?
+    function returnUnaddedDogindex(){ 
+        num = Math.floor((Math.random() * alllen));
+        randomDog = allBreeds[num];
+        index = myCollection.indexOf(randomDog);
+    return index;
+    }
+
+    index = returnUnaddedDogindex();
+
+    while(index > 0){ 
+        index = returnUnaddedDogindex();  
+        if (alllen == mylen ) {  
+            index == -1;   
+            $('#rand-dog').css('display','none');
+        } 
+    } 
+
+    let dog = randomDog.split(' ').join('-'); 
+    addDogtoCollection(dog);
 });
